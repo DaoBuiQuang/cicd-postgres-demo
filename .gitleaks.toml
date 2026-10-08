@@ -1,0 +1,23 @@
+title = "CI/CD demo secret scanning"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "demo-hardcoded-api-token"
+description = "Simulated API token committed to source (not a real credential)"
+regex = '''(?i)demo_api_token\s*=\s*(demo_only_[a-f0-9]{32})'''
+secretGroup = 1
+keywords = ["DEMO_API_TOKEN"]
+
+[allowlist]
+description = "Generated output and local tool metadata; source files remain scanned"
+paths = [
+  '''(^|/)target/''',
+  '''(^|/)security-reports/''',
+  '''(^|/)\.git/''',
+  '''(^|/)\.idea/''',
+  '''(^|/)\.agents/''',
+  '''(^|/)\.codex/''',
+  '''(^|/)\.aws/''',
+]

@@ -1,5 +1,7 @@
 package com.example.cicddemo.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.example.cicddemo.entity.AppUser;
 import com.example.cicddemo.entity.CustomerOrder;
 import com.example.cicddemo.entity.OrderStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Tag(name = "Orders", description = "Quản lý đơn hàng")
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -51,6 +54,9 @@ public class OrderController {
         return orderRepository.save(order);
     }
 
-    public record CreateOrderRequest(Long userId, Long productId, Integer quantity) {
+    public record CreateOrderRequest(
+            @Schema(description = "ID người dùng", example = "1") Long userId,
+            @Schema(description = "ID sản phẩm", example = "1") Long productId,
+            @Schema(description = "Số lượng đặt hàng", example = "2", minimum = "1") Integer quantity) {
     }
 }

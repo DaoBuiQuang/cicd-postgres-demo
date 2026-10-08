@@ -14,7 +14,25 @@ on:
 permissions:
   contents: read
 jobs:
+  secret-scan:
+    name: Secret scan (security gate)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Scan source for leaked secrets
+        run: bash scripts/scan-secrets.sh
+      - name: Save redacted security report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: secret-scan-report
+          path: security-reports/gitleaks.json
+          if-no-files-found: ignore
+          retention-days: 7
   build-and-test:
+    needs: secret-scan
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:

@@ -362,3 +362,39 @@ Dọn **stack thử nghiệm này** sau demo (xóa cả dữ liệu thử nghi�
 APP_IMAGE=cicd-postgres-demo:local DB_PASSWORD=demo-password APP_PORT=18080 \
   docker compose -p cicd-smoke -f docker-compose.deploy.yml down -v
 ```
+
+## 11. Demo quản trị rủi ro an toàn thông tin
+
+Pipeline có job **Secret scan (security gate)** trước build. Khi phát hiện secret,
+CI chặn build/publish/deploy và lưu báo cáo đã che giá trị secret.
+
+Xem [kịch bản demo token giả trong source](docs/security-risk-demo.md) để bật lỗi,
+xem pipeline đỏ rồi khắc phục. Hai lệnh điều khiển case:
+
+```bash
+bash scripts/security-demo.sh enable
+bash scripts/security-demo.sh disable
+```
+
+Case dùng credential giả và rule mô phỏng, không dùng token GitHub thật.
+Quét local bằng `bash scripts/scan-secrets.sh` (cần Docker).
+
+## 12. Swagger UI — xem và gọi thử API
+
+Sau khi khởi động ứng dụng, mở:
+
+- Swagger UI: http://localhost:8080/swagger-ui.html
+- OpenAPI JSON: http://localhost:8080/v3/api-docs
+
+Các API được nhóm thành Health, Users, Products và Orders. Chọn endpoint,
+bấm **Try it out**, nhập dữ liệu rồi **Execute**. Các POST thực sự tạo dữ liệu
+trong database demo. Ví dụ body cho `POST /api/orders`:
+
+```json
+{"userId":1,"productId":1,"quantity":2}
+```
+
+Nếu chạy bằng Docker, rebuild để có Swagger mới: `docker compose up -d --build`.
+Nếu chạy trực tiếp, reload Maven trong IDE và restart app, hoặc chạy
+`DB_PORT=5488 mvn spring-boot:run` khi PostgreSQL local dùng Compose của dự án.
+Thay host/cổng trong URL nếu truy cập bản triển khai trên server.

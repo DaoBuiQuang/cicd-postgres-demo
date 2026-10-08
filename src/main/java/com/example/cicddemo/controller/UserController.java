@@ -1,5 +1,6 @@
 package com.example.cicddemo.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.example.cicddemo.entity.AppUser;
 import com.example.cicddemo.repository.AppUserRepository;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Tag(name = "Users", description = "Quản lý người dùng")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

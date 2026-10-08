@@ -1,5 +1,6 @@
 package com.example.cicddemo.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.example.cicddemo.entity.Product;
 import com.example.cicddemo.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Tag(name = "Products", description = "Quản lý sản phẩm")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
