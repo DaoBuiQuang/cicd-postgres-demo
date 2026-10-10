@@ -80,6 +80,44 @@ PostgreSQL mặc định:
 
 ## 4. Hoặc chạy Java trực tiếp trên máy
 
+### Windows PowerShell
+
+Maven dùng JDK trong `JAVA_HOME`. Máy có Java 17 nhưng `JAVA_HOME` trỏ tới
+Java 8 vẫn gây lỗi `class file has wrong version 61.0, should be 52.0`.
+Chọn JDK 17 cho cửa sổ PowerShell hiện tại (thay đường dẫn nếu cần):
+
+```powershell
+$env:JAVA_HOME = 'C:\Program Files\Java\jdk-17'
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+mvn -version
+mvn clean verify
+```
+
+Kết quả `mvn -version` phải ghi Java 17. Nếu chạy trong IDE, chọn JDK 17
+cho Project SDK và Maven runner.
+
+Mở Docker Desktop, chờ engine sẵn sàng rồi chạy:
+
+```powershell
+docker info
+docker compose up -d postgres
+$env:DB_PORT = '5488'
+mvn spring-boot:run
+```
+
+Hoặc sau khi build JAR:
+
+```powershell
+$env:DB_PORT = '5488'
+java -jar target/cicd-postgres-demo-0.0.1-SNAPSHOT.jar
+```
+
+Nếu Docker báo không tìm thấy `dockerDesktopLinuxEngine`, engine chưa sẵn sàng;
+kiểm tra Docker Desktop đang chạy với Linux containers. Nếu Java báo connection
+refused ở cổng 5432, kiểm tra `DB_PORT=5488` khi dùng PostgreSQL của Compose local.
+
+### Bash (Linux, macOS hoặc Git Bash)
+
 Nếu chỉ muốn PostgreSQL chạy bằng Docker:
 
 ```bash

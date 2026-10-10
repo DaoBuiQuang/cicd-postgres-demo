@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Local PostgreSQL (5488)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.example.cicddemo.CicdPostgresDemoApplication" />
+    <module name="cicd-postgres-demo" />
+    <envs>
+      <env name="DB_HOST" value="localhost" />
+      <env name="DB_PORT" value="5488" />
+      <env name="DB_NAME" value="cicd_demo" />
+      <env name="DB_USERNAME" value="postgres" />
+      <env name="DB_PASSWORD" value="postgres" />
+      <env name="SERVER_PORT" value="8080" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
